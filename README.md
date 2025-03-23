@@ -2,7 +2,7 @@
 
 This script is inspired by Chris Titus Tech's excellent `linutil` project (https://github.com/ChrisTitusTech/linutil).  
 
-This provides an automated way to install Arch Linux with your choice of Desktop Environment (DE) or with no DE at all.
+
 
 ## Features
 
