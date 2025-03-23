@@ -1,5 +1,7 @@
 # arch-install-script
+
 Based on Christ Titus's Linux Utility server-setup.sh
+
 Please go check out his project: https://github.com/ChrisTitusTech/linutil
 
 
@@ -12,14 +14,18 @@ Please go check out his project: https://github.com/ChrisTitusTech/linutil
 - station wlan0 show
 
 ### Step 2: run script
-- curl -L https://raw.githubusercontent.com/SpiderPunkXL/arch-install-script/refs/heads/main/arch-install.sh | bash
+- pacman -Sy git
+- git clone https://github.com/SpiderPunkXL/arch-install-script.git
+- cd arch-install-script
+- chmod +x arch-install.sh
+- ./archinstall.sh
+- reboot (once script is finished running)
 
 ### Step 3: Use one of the following toolkit to install what you want
 - bash -c "$(curl -fsSL https://xerolinux.xyz/script/xapi.sh)"
 - curl -fsSL https://christitus.com/linux | sh
 
 ### Enjoy Your New Arch Linux Installation!
-
 
 ## References
 - https://www.youtube.com/watch?v=PqGnlEmfYjM&t=639s
