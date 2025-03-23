@@ -12,7 +12,7 @@ Please go check out his project: https://github.com/ChrisTitusTech/linutil
 - station wlan0 show
 
 ### Step 2: run script
-- 
+- curl -L https://raw.githubusercontent.com/SpiderPunkXL/arch-install-script/refs/heads/main/arch-install.sh | bash
 
 ### Step 3: Use one of the following toolkit to install what you want
 - bash -c "$(curl -fsSL https://xerolinux.xyz/script/xapi.sh)"
