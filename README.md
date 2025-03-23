@@ -28,5 +28,5 @@ Please go check out his project: https://github.com/ChrisTitusTech/linutil
 ### Enjoy Your New Arch Linux Installation!
 
 ## References
-- https://www.youtube.com/watch?v=PqGnlEmfYjM&t=639s
-- https://www.youtube.com/watch?v=v0UPif52i5A
+- https://www.youtube.com/watch?v=PqGnlEmfYjM&t=639s (CT's linutil)
+- https://www.youtube.com/watch?v=v0UPif52i5A (Xero's Toolkit)
