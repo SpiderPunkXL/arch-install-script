@@ -1,8 +1,10 @@
-# arch-install-script
+# Arch Install Script
 
 Based on Christ Titus's Linux Utility server-setup.sh
 
 Please go check out his project: https://github.com/ChrisTitusTech/linutil
+
+My script allows you the users to install some DEs of your choice.
 
 
 ## Automated Arch Linux Installer
@@ -18,7 +20,7 @@ Please go check out his project: https://github.com/ChrisTitusTech/linutil
 - git clone https://github.com/SpiderPunkXL/arch-install-script.git
 - cd arch-install-script
 - chmod +x arch-install.sh
-- ./archinstall.sh
+- ./arch-install.sh
 - reboot (once script is finished running)
 
 ### Step 3: Use one of the following toolkit to install what you want
