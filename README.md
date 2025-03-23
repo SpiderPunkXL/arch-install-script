@@ -4,7 +4,13 @@ Based on Christ Titus's Linux Utility server-setup.sh
 
 Please go check out his project: https://github.com/ChrisTitusTech/linutil
 
-My script allows you the users to install some DEs of your choice.
+My script allows you the users to install one of the following DEs listed bellow of your choice or No DE at all.
+
+- GNOME
+- KDE
+- XFCE
+- COSMIC (WARNING still in alpha)
+
 
 
 ## Automated Arch Linux Installer
