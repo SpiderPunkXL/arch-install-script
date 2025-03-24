@@ -606,7 +606,25 @@ echo -ne "
 "
 if echo "${gpu_type}" | grep -E "NVIDIA|GeForce"; then
     echo "Installing NVIDIA drivers"
-    pacman -S --noconfirm --needed nvidia
+    echo -ne "
+    Please select your NVIDIA driver:
+    "
+    options=("nvidia-dkms (Proprietary - Recommended for older GPUs)" "nvidia-open-dkms (Open - For GTX 16 series or newer RTX series)" "exit")
+    select_option "${options[@]}"
+
+    case $? in
+        0) 
+            echo "Installing NVIDIA DKMS driver..."
+            pacman -S --noconfirm --needed nvidia-dkms
+            ;;
+        1) 
+            echo "Installing NVIDIA Open DKMS driver..."
+            pacman -S --noconfirm --needed nvidia-open-dkms
+            ;;
+        2) 
+            echo "Skipping NVIDIA driver installation..."
+            ;;
+    esac
 elif echo "${gpu_type}" | grep 'VGA' | grep -E "Radeon|AMD"; then
     echo "Installing AMD drivers"
     pacman -S --noconfirm --needed xf86-video-amdgpu
