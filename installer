@@ -2,5 +2,5 @@
 
 pacman -Sy git --noconfirm
 git clone https://github.com/SpiderPunkXL/arch-install-script.git
-chmod -R +x arch-install-script
+chmod +x arch-install-script/arch-install.sh
 cd arch-install-script && ./arch-install.sh
