@@ -1,6 +1,0 @@
-#!/bin/env bash
-
-pacman -Sy git --noconfirm
-git clone https://github.com/SpiderPunkXL/arch-install-script.git
-chmod +x arch-install-script/arch-install.sh
-cd arch-install-script && ./arch-install.sh
