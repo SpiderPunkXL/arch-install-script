@@ -531,7 +531,7 @@ case \${DE} in
         ;;
     xfce)
         echo "Installing XFCE..."
-        pacman -S --noconfirm xorg xfce4 xfce4-goodies lightdm lightdm-gtk-greeter power-profiles-daemon pavucontrol gvfs ark chromium ntfs-3g
+        pacman -S --noconfirm xorg xfce4 xfce4-goodies lightdm lightdm-gtk-greeter power-profiles-daemon pavucontrol gvfs ark firefox firefox-ublock-origin ntfs-3g
         ;;
     cosmic)
         echo "Installing Cosmic..."
