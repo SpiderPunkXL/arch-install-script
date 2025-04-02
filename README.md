@@ -61,7 +61,7 @@ Skip this step if you have a wired Ethernet connection.
 2.  **Clone the repository:**
 
     ```
-    git clone https://github.com/SpiderPunkXL/arch-install-script.git
+    git clone https://github.com/WizardBitter/arch-install-script.git
     ```
 
 3.  **Navigate to the script directory:**
