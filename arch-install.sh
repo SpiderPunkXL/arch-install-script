@@ -144,12 +144,12 @@ filesystem () {
     echo -ne "
     Please Select your file system for both boot and root
     "
-    options=("btrfs" "ext4" "luks" "exit")
+    options=("ext4" "btrfs" "luks" "exit")
     select_option "${options[@]}"
 
     case $? in
-    0) export FS=btrfs;;
-    1) export FS=ext4;;
+    0) export FS=ext4;;
+    1) export FS=btrfs;;
     2)
         set_password "LUKS_PASSWORD"
         export FS=luks
