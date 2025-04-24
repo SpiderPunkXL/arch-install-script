@@ -4,11 +4,52 @@
 exec > >(tee -i archsetup.txt)
 exec 2>&1
 
-echo -ne "
-------------------------------------------------------------------------------------------
-                Introducing the Automated Arch Linux Installer, baby! 
-It's your one-stop ticket to a sleek, streamlined Arch experience without all the hassle! 
-------------------------------------------------------------------------------------------
+# Color definitions
+C_BOLD="\033[1m"
+C_BLUE="\033[34m"
+C_GREEN="\033[32m"
+C_RED="\033[31m"
+C_YELLOW="\033[33m"
+C_MAGENTA="\033[35m"
+C_CYAN="\033[36m"
+C_WHITE="\033[37m"
+C_BG_BLUE="\033[44m"
+C_BG_GREEN="\033[42m"
+C_BG_YELLOW="\033[43m"
+C_BG_MAGENTA="\033[45m"
+C_BG_CYAN="\033[46m"
+C_BG_WHITE="\033[47m"
+C_RESET="\033[0m"
+
+# Display the logo with color and style
+logo() {
+    # Arch Linux ASCII art
+    echo -e "${C_BLUE}${C_BOLD}"
+    echo -e "                                       -\`"
+    echo -e "                                       .o+\`"
+    echo -e "                                      \`ooo/"
+    echo -e "                                     \`+oooo:"
+    echo -e "                                    \`+oooooo:"
+    echo -e "                                    -+oooooo+:"
+    echo -e "                                  \`/:-:++oooo+:"
+    echo -e "                                 \`/++++/+++++++:"
+    echo -e "                                \`/++++++++++++++:"
+    echo -e "                               \`/+++ooooooooooooo/\`"
+    echo -e "                              ./ooosssso++osssssso+\`"
+    echo -e "                             .oossssso-\`\`\`\`/ossssss+\`"
+    echo -e "                            -osssssso.      :ssssssso."
+    echo -e "                           :osssssss/        osssso+++."
+    echo -e "                          /ossssssss/        +ssssooo/-"
+    echo -e "                        \`/ossssso+/:-        -:/+osssso+-"
+    echo -e "                       \`+sso+:-\`                 \`.-/+oso:"
+    echo -e "                      \`++:.                           \`-/+/"
+    echo -e "                     \`\`                                 \`/"
+    echo -e "-------------------------------------------------------------------------------------------"
+    echo -e "                   Introducing the Automated Arch Linux Installer, baby!                   "
+    echo -e "It's your one-stop ticket to a sleek, streamlined Arch experience without all the hassle!  "
+    echo -e "-------------------------------------------------------------------------------------------"
+    echo -e "${C_RESET}"
+}
 
 Verifying Arch Linux ISO is Booted
 
@@ -111,16 +152,6 @@ select_option() {
     return $selected
 }
 
-logo () {
-# This will be shown on every set as user is progressing
-echo -ne "
-------------------------------------------------------------------------------------------
-                Introducing the Automated Arch Linux Installer, baby! 
-It's your one-stop ticket to a sleek, streamlined Arch experience without all the hassle! 
-------------------------------------------------------------------------------------------
-"
-}
-
 # New function to select desktop environment
 desktop_environment() {
     echo -ne "
@@ -211,7 +242,9 @@ drivessd () {
 }
 
 diskpart () {
+
 echo -ne "
+${C_RED}${C_BOLD}
 -------------------------------------------------------------------------------------
     Whoa there, Hold your horses! 
     This bad boy is about to wipe the disk clean and erase all your precious data! 
@@ -223,7 +256,7 @@ echo -ne "
 
     I CAN'T BE HELD LIABLE FOR ANY DATA DRAMA!
 -------------------------------------------------------------------------------------
-
+${C_RESET}
 "
 
     PS3='
@@ -313,23 +346,29 @@ sed -i 's/^#ParallelDownloads/ParallelDownloads/' /etc/pacman.conf
 pacman -S --noconfirm --needed reflector rsync grub
 cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
 echo -ne "
+${C_YELLOW}${C_BOLD}
 -------------------------------------------------------------------------
                     Setting up $iso mirrors for faster downloads
 -------------------------------------------------------------------------
+${C_RESET}
 "
 reflector -a 48 -c "$iso" -f 5 -l 20 --sort rate --save /etc/pacman.d/mirrorlist
 mkdir -p /mnt
 
 echo -ne "
+${C_GREEN}${C_BOLD}
 -------------------------------------------------------------------------
                     Installing Prerequisites
 -------------------------------------------------------------------------
+${C_RESET}
 "
 pacman -S --noconfirm --needed gptfdisk btrfs-progs glibc
 echo -ne "
+${C_CYAN}${C_BOLD}
 -------------------------------------------------------------------------
                     Formatting Disk
 -------------------------------------------------------------------------
+${C_RESET}
 "
 umount -A --recursive /mnt # make sure everything is unmounted before we start
 sgdisk -Z "${DISK}" # zap all on disk
@@ -345,9 +384,11 @@ fi
 partprobe "${DISK}"
 
 echo -ne "
+${C_BLUE}${C_BOLD}
 -------------------------------------------------------------------------
                     Creating Filesystems
 -------------------------------------------------------------------------
+${C_RESET}
 "
 createsubvolumes () {
     btrfs subvolume create /mnt/@
@@ -412,9 +453,11 @@ if ! grep -qs '/mnt' /proc/mounts; then
 fi
 
 echo -ne "
+${C_CYAN}${C_BOLD}
 -------------------------------------------------------------------------
                     Arch Install on Main Drive
 -------------------------------------------------------------------------
+${C_RESET}
 "
 # Ensure the pacman keyring is initialized
 pacman-key --init
@@ -475,9 +518,11 @@ if [[ ! -d "/sys/firmware/efi" ]]; then
 fi
 
 echo -ne "
+${C_GREEN}${C_BOLD}
 -------------------------------------------------------------------------
                     Checking for low memory systems <8G
 -------------------------------------------------------------------------
+${C_RESET}
 "
 TOTAL_MEM=$(cat /proc/meminfo | grep -i 'memtotal' | grep -o '[[:digit:]]*')
 if [[  $TOTAL_MEM -lt 8000000 ]]; then
@@ -497,9 +542,11 @@ gpu_type=$(lspci | grep -E "VGA|3D|Display")
 
 arch-chroot /mnt /bin/bash -c "KEYMAP='${KEYMAP}' DE='${DE}' /bin/bash" <<EOF
 echo -ne "
+${C_YELLOW}${C_BOLD}
 -------------------------------------------------------------------------
                     Network Setup
 -------------------------------------------------------------------------
+${C_RESET}
 "
 pacman -S --noconfirm --needed networkmanager dhclient
 systemctl enable --now NetworkManager
@@ -515,9 +562,11 @@ cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.bak
 
 nc=$(grep -c ^processor /proc/cpuinfo)
 echo -ne "
+${C_MAGENTA}${C_BOLD}
 -------------------------------------------------------------------------
                     Installing DE and Packages
 -------------------------------------------------------------------------
+${C_RESET}
 "
 # Install Desktop Environment based on selection
 case \${DE} in
@@ -535,7 +584,7 @@ case \${DE} in
         ;;
     cosmic)
         echo "Installing Cosmic..."
-        pacman -S --noconfirm cosmic power-profiles-daemon ntfs-3g
+        pacman -S --noconfirm cosmic power-profiles-daemon ntfs-3g file-roller
         ;;
     none)
         echo "Skipping desktop environment installation..."
@@ -544,11 +593,13 @@ case \${DE} in
 esac
 
 echo -ne "
+${C_BLUE}${C_BOLD}
 -------------------------------------------------------------------------
                     You have " \$nc" cores. And
             changing the makeflags for " \$nc" cores. Aswell as
                 changing the compression settings.
 -------------------------------------------------------------------------
+${C_RESET}
 "
 TOTAL_MEM=\$(cat /proc/meminfo | grep -i 'memtotal' | grep -o '[[:digit:]]*')
 if [[  \$TOTAL_MEM -gt 8000000 ]]; then
@@ -557,9 +608,11 @@ sed -i "s/COMPRESSXZ=(xz -c -z -)/COMPRESSXZ=(xz -c -T \$nc -z -)/g" /etc/makepk
 fi
 
 echo -ne "
+${C_GREEN}${C_BOLD}
 -------------------------------------------------------------------------
                     Setup Language to US and set locale
 -------------------------------------------------------------------------
+${C_RESET}
 "
 sed -i 's/^#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
 locale-gen
@@ -587,9 +640,11 @@ sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
 pacman -Sy --noconfirm --needed
 
 echo -ne "
+${C_BLUE}${C_BOLD}
 -------------------------------------------------------------------------
                     Installing Microcode
 -------------------------------------------------------------------------
+${C_RESET}
 "
 if grep -q "GenuineIntel" /proc/cpuinfo; then
     echo "Installing Intel microcode"
@@ -600,9 +655,11 @@ elif grep -q "AuthenticAMD" /proc/cpuinfo; then
 fi
 
 echo -ne "
+${C_CYAN}${C_BOLD}
 -------------------------------------------------------------------------
                     Installing Graphics Drivers
 -------------------------------------------------------------------------
+${C_RESET}
 "
 if echo "${gpu_type}" | grep -E "NVIDIA|GeForce"; then
     echo "Installing NVIDIA drivers"
@@ -634,9 +691,11 @@ elif echo "${gpu_type}" | grep -E "Integrated Graphics Controller|Intel Corporat
 fi
 
 echo -ne "
+${C_BLUE}${C_BOLD}
 -------------------------------------------------------------------------
                     Adding User
 -------------------------------------------------------------------------
+${C_RESET}
 "
 groupadd libvirt
 useradd -m -G wheel,libvirt -s /bin/bash $USERNAME
@@ -655,9 +714,11 @@ if [[ -d "/sys/firmware/efi" ]]; then
 fi
 
 echo -ne "
+${C_YELLOW}${C_BOLD}
 -------------------------------------------------------------------------
-               Creating (and Theming) Grub Boot Menu
+                    Creating (and Theming) Grub Boot Menu
 -------------------------------------------------------------------------
+${C_RESET}
 "
 if [[ "${FS}" == "luks" ]]; then
 sed -i "s%GRUB_CMDLINE_LINUX_DEFAULT=\"%GRUB_CMDLINE_LINUX_DEFAULT=\"cryptdevice=UUID=${ENCRYPTED_PARTITION_UUID}:ROOT root=/dev/mapper/ROOT %g" /etc/default/grub
@@ -684,9 +745,11 @@ echo "GRUB_THEME=\"\${THEME_DIR}/theme.txt\"" >> /etc/default/grub
 grub-mkconfig -o /boot/grub/grub.cfg
 
 echo -ne "
+${C_BLUE}${C_BOLD}
 -------------------------------------------------------------------------
                     Enabling Essential Services
 -------------------------------------------------------------------------
+${C_RESET}
 "
 ntpd -qg
 systemctl enable ntpd.service
@@ -722,9 +785,11 @@ case \${DE} in
 esac
 
 echo -ne "
+${C_CYAN}${C_BOLD}
 -------------------------------------------------------------------------
                     Cleaning
 -------------------------------------------------------------------------
+${C_RESET}
 "
 # Remove no password sudo rights
 sed -i 's/^%wheel ALL=(ALL) NOPASSWD: ALL/# %wheel ALL=(ALL) NOPASSWD: ALL/' /etc/sudoers
@@ -733,9 +798,10 @@ sed -i 's/^%wheel ALL=(ALL:ALL) NOPASSWD: ALL/# %wheel ALL=(ALL:ALL) NOPASSWD: A
 sed -i 's/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
 sed -i 's/^# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
 EOF
-
 echo -ne "
+${C_MAGENTA}${C_BOLD}
 -------------------------------------------------------------------------
                     Installation Complete!
 -------------------------------------------------------------------------
+${C_RESET}
 "
