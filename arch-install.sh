@@ -51,9 +51,7 @@ logo() {
     echo -e "${C_RESET}"
 }
 
-Verifying Arch Linux ISO is Booted
-
-"
+#Verifying Arch Linux ISO is Booted
 if [ ! -f /usr/bin/pacstrap ]; then
     echo "This script must be run from an Arch Linux ISO environment."
     exit 1
